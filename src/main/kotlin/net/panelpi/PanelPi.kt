@@ -23,3 +23,7 @@ class PanelPiApp : App(MainView::class) {
         super.start(stage)
     }
 }
+
+fun main(args: Array<String>) {
+    launch<PanelPiApp>(args)
+}
