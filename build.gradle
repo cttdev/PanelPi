@@ -2,6 +2,8 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.3.61"
     id 'org.hidetake.ssh' version '2.10.1'
     id "org.openjfx.javafxplugin" version "0.0.10"
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'java'
     id "application"
 }
 
@@ -44,17 +46,29 @@ wrapper {
     gradleVersion = "6.0.1"
 }
 
-task fatJar(type: Jar) {
-    group = 'build'
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Implementation-Version': version,
-                'Main-Class': "net.panelpi.PanelPiApp"
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+shadowJar {
+   archiveBaseName.set('PanelPi')
+   archiveClassifier.set('')
+   archiveVersion.set('')
 }
+
+jar {
+   manifest {
+       attributes 'Main-Class': "net.panelpi.PanelPiApp"
+   }
+}
+
+// task fatJar(type: Jar) {
+//     group = 'build'
+//     manifest {
+//         attributes 'Implementation-Title': 'Gradle Jar File Example',
+//                 'Implementation-Version': version,
+//                 'Main-Class': "net.panelpi.PanelPiApp"
+//     }
+//     baseName = project.name + '-all'
+//     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//     with jar
+// }
 
 // remotes {
 //     pi {
